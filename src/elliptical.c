@@ -4,9 +4,9 @@
 
 #define EPS 1e-7
 #define PI 3.1415926535
-#define N1 100       /* ÓÎ-‚Ó ˇ˜ÂÂÍ ÔÓ ÓÒË r*/
-#define N2 500      /* ÓÎ-‚Ó ˇ˜ÂÂÍ ÔÓ ÓÒË phi*/
-#define l1 1.0        /*ƒÎËÌ‡ ÒÚÓÓÌ˚ ÔˇÏÓÛ„ÓÎ¸ÌËÍ‡ ÔÓ ÓÒË x*/
+#define N1 100       /* number of cells on the r axis */
+#define N2 500      /* number of cells on the phi axis */
+#define l1 1.0        /* the length of the rectangle side along the phi axis */
 #define l2 2.0 * PI
 
 double function(double *, double *, int, int);
@@ -16,7 +16,7 @@ double function(double *r, double *phi, int k, int j)
 }
 
 
-/* ¬€◊»—À≈Õ»≈ ÕŒ–Ã€  ||x||_inf = max|x_i| */
+/* CALCULATION OF THE NORM  ||x||_inf = max|x_i| */
 
 double norm_inf(double *, int);
 double norm_inf(double *a, int n)
@@ -39,16 +39,16 @@ double norm_inf(double *a, int n)
 int main(void)
 {
 	int i = 0,
-		j = 0,
-		k = 1,
-		param_iter = 0;
+	    j = 0,
+	    k = 1,
+	    param_iter = 0;
 
 	double h1 = 0,
-		h2 = 0,
-		temp1 = 0,
-		temp2 = 0,
-		temp3 = 0,
-		temp4 = 0;
+	       h2 = 0,
+	       temp1 = 0,
+	       temp2 = 0,
+	       temp3 = 0,
+	       temp4 = 0;
 
 	double* u, * u_next, * r, * phi, * norm, * u_r, *u_phi;
 
@@ -67,7 +67,7 @@ int main(void)
 		return -1;
 	}
 
-	/********* »Õ»÷»¿À»«¿÷»ﬂ Ã¿——»¬Œ¬ r Ë phi, ¿ “¿ ∆≈ «¿ƒ¿Õ»≈ Õ¿◊¿À‹ÕŒ√Œ «Õ¿◊≈Õ»ﬂ ¬≈ “Œ–¿ u *********/
+	/********* INITIALIZATION OF ARRAYS r and phi, AS WELL AS SETTING THE INITIAL VALUE OF THE VECTOR u *********/
 
 	h1 = l1 / N1;
 	h2 = l2 / N2;
@@ -94,10 +94,10 @@ int main(void)
 		}
 	}
 
-	/*********  ŒÕ≈÷ »Õ»÷»¿À»«¿÷»» *********/
+	/********* END OF INITIALIZATION *********/
 
 
-	/********* Õ¿◊¿ÀŒ »“≈–¿÷»ŒÕÕŒ√Œ œ–Œ÷≈——¿ *********/
+	/********* THE BEGINNING OF THE ITERATIVE PROCESS *********/
 	
 	do
 	{
@@ -247,7 +247,7 @@ int main(void)
 		//printf("%lf ", norm_inf(norm, (N1 - 1)*(N2 + 1)));
 	} while (fabs(norm_inf(norm, (N1 - 1) * (N2 + 1)))>EPS);
 
-	/*********  ŒÕ≈÷ »“≈–¿÷»ŒÕÕŒ√Œ œ–Œ÷≈——¿ *********/
+	/********* END OF THE ITERATIVE PROCESS *********/
 	//printf("%d", param_iter);
 	FILE* g;
 	//fopen_s(&g, "output_iter8000_cells_u(r)7pi4_200na1000.txt", "w");
